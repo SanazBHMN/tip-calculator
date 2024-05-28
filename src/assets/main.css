@@ -5,3 +5,7 @@
   font-weight: 700;
   font-style: normal;
 }
+
+body {
+  background-color: hsl(185, 41%, 84%);
+}
