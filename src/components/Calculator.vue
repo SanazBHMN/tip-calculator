@@ -6,6 +6,8 @@ import { NGrid, NGridItem, NInputNumber, NSpace } from "naive-ui";
 // import dollar from "../assets/images/icon-dollar.svg";
 // import person from "../assets/images/icon-person.svg";
 
+const tipPercentage = ["5%", "10%", "15%", "25%", "50%"];
+
 const inputs = ref({
   bill: null,
   tip: null,
@@ -20,7 +22,7 @@ const inputs = ref({
       <label for="bill">Bill</label>
       <input
         type="number"
-        v-model="ref.bill"
+        v-model="inputs.bill"
         class="input"
         name="bill"
         id="bill"
@@ -29,14 +31,16 @@ const inputs = ref({
       <div class="selection">
         <label>Select Tip %</label>
         <ul class="options">
-          <li>5%</li>
-          <li>10%</li>
-          <li>15%</li>
-          <li>25%</li>
-          <li>50%</li>
+          <li
+            v-for="amount in tipPercentage"
+            :key="amount"
+            @click="console.log(amount)"
+          >
+            {{ amount }}
+          </li>
           <input
             type="number"
-            v-model="customTip"
+            v-model="inputs.customTip"
             name="custom"
             id="custom"
             placeholder="Custom"
@@ -47,7 +51,7 @@ const inputs = ref({
       <label for="people">Number of people</label>
       <input
         type="number"
-        v-model="numberOfPeople"
+        v-model="inputs.numberOfPeople"
         class="input"
         name="people"
         id="people"
