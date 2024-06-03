@@ -11,7 +11,7 @@ import Attribution from "./components/Attribution.vue";
   <main>
     <Header />
     <div class="sections-container">
-      <NGrid cols="1 s:2" item-responsive responsive="screen">
+      <NGrid cols="1 s:2" :x-gap="16" item-responsive responsive="screen">
         <NGridItem>
           <Calculator />
         </NGridItem>
