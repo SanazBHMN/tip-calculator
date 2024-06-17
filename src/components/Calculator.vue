@@ -1,76 +1,52 @@
 <script setup>
-import { ref } from "vue";
+import { useCalculator } from "@/composables/useCalculator";
+import { NSpace } from "naive-ui";
+import { watch } from "vue";
 
-import { NGrid, NGridItem, NInputNumber, NSpace } from "naive-ui";
+const {
+  state,
+  tipPercentage,
+  getTipNumber,
+  calculateTipPerPerson,
+  calculateTotalPerPerson,
+} = useCalculator();
 
-// import dollar from "../assets/images/icon-dollar.svg";
-// import person from "../assets/images/icon-person.svg";
+const handleTip = (index) => {
+  state.customTip = "";
+  getTipNumber(index);
+};
 
-const tipPercentage = ["5", "10", "15", "25", "50"];
-
-const inputs = ref({
-  bill: null,
-  tip: null,
-  customTip: null,
-  numberOfPeople: null,
-  tipPerPerson: null,
-  totalPerPerson: null,
+watch(state, () => {
+  calculateTipPerPerson();
+  calculateTotalPerPerson();
 });
-
-// Set the value of li elements to tip
-const getTipNumber = (number) => {
-  inputs.value.tip = Number(tipPercentage[number]);
-};
-
-const calculateTotalTip = () => {
-  return inputs.value.bill * (inputs.value.tip / 100);
-};
-
-const calculateTotalBill = () => {
-  let totalTip = calculateTotalTip();
-
-  return inputs.value.bill + totalTip;
-};
-
-const calculateTipPerPerson = () => {
-  let totalTip = calculateTotalTip();
-
-  inputs.value.tipPerPerson = totalTip / inputs.value.numberOfPeople;
-};
-
-const calculateTotalPerPerson = () => {
-  let totalBill = calculateTotalBill();
-
-  inputs.value.totalPerPerson(totalBill / inputs.value.numberOfPeople);
-};
 </script>
 
 <template>
   <div class="light-green">
-    <button @click="calculateTotalPerPerson">click</button>
     <NSpace vertical>
       <label for="bill">Bill</label>
       <input
         type="number"
-        v-model="inputs.bill"
+        v-model="state.bill"
         class="input"
         name="bill"
         id="bill"
+        placeholder="0"
       />
-
       <div class="selection">
         <label>Select Tip %</label>
         <ul class="options">
           <li
             v-for="(amount, index) in tipPercentage"
             :key="amount"
-            @click="getTipNumber(index)"
+            @click="handleTip(index)"
           >
             {{ amount }}%
           </li>
           <input
             type="number"
-            v-model="inputs.customTip"
+            v-model="state.customTip"
             name="custom"
             id="custom"
             placeholder="Custom"
@@ -81,10 +57,11 @@ const calculateTotalPerPerson = () => {
       <label for="people">Number of people</label>
       <input
         type="number"
-        v-model="inputs.numberOfPeople"
+        v-model="state.numberOfPeople"
         class="input"
         name="people"
         id="people"
+        placeholder="0"
       />
     </NSpace>
   </div>

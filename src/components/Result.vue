@@ -1,5 +1,8 @@
 <script setup>
 import ResetButton from "./ResetButton.vue";
+import { useCalculator } from "@/composables/useCalculator";
+
+const { state, reset } = useCalculator();
 </script>
 
 <template>
@@ -10,17 +13,29 @@ import ResetButton from "./ResetButton.vue";
           <p class="title">Tip Amount</p>
           <small>/ person</small>
         </div>
-        <div class="result">$4.27</div>
+        <div class="result">
+          ${{
+            state.tipPerPerson === 0
+              ? "0.00"
+              : Math.round(state.tipPerPerson * 100) / 100
+          }}
+        </div>
       </div>
       <div class="row">
         <div>
           <p class="title">Total</p>
           <small>/ person</small>
         </div>
-        <div class="result">$32.79</div>
+        <div class="result">
+          ${{
+            state.totalPerPerson === 0
+              ? "0.00"
+              : Math.round(state.totalPerPerson * 100) / 100
+          }}
+        </div>
       </div>
     </div>
-    <ResetButton />
+    <ResetButton @click="reset" />
   </div>
 </template>
 
